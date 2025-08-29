@@ -1,0 +1,586 @@
+import { useState } from 'react';
+import { CheckCircle2, Circle, Calendar, Users, Database, CreditCard, Globe, Settings, BookOpen, Zap } from 'lucide-react';
+
+export default function StudentEventRoadmap() {
+  const [completedItems, setCompletedItems] = useState(new Set());
+  const [activePhase, setActivePhase] = useState(0);
+
+  const toggleComplete = (id) => {
+    const newCompleted = new Set(completedItems);
+    if (newCompleted.has(id)) {
+      newCompleted.delete(id);
+    } else {
+      newCompleted.add(id);
+    }
+    setCompletedItems(newCompleted);
+  };
+
+  const roadmapPhases = [
+    {
+      title: "Planning & Design",
+      icon: <BookOpen className="w-5 h-5" />,
+      color: "bg-indigo-500",
+      description: "Define requirements and system architecture",
+      timeline: "1 week",
+      items: [
+        {
+          id: "requirements",
+          task: "Define project requirements and features",
+          details: "List all features: student registration, event creation, payment processing, admin dashboard",
+          resources: ["Requirements gathering template", "User story writing guide"],
+          links: ["https://www.atlassian.com/agile/project-management/requirements", "https://www.mountaingoatsoftware.com/agile/user-stories"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "database-schema",
+          task: "Design database schema (Students, Events, Payments, Registrations)",
+          details: "Plan tables: users, events, registrations, payments with relationships",
+          resources: ["Database design tutorial", "ERD drawing tools"],
+          links: ["https://www.lucidchart.com/pages/database-diagram/database-design", "https://dbdiagram.io/d"],
+          timeEstimate: "2 days"
+        },
+        {
+          id: "wireframes",
+          task: "Create wireframes for key pages",
+          details: "Design: Home, Event list, Registration form, Payment page, Student dashboard, Admin panel",
+          resources: ["Figma free account", "Wireframing best practices"],
+          links: ["https://www.figma.com/", "https://balsamiq.com/learn/articles/what-are-wireframes/"],
+          timeEstimate: "2 days"
+        },
+        {
+          id: "tech-stack",
+          task: "Choose your technology stack",
+          details: "Recommended: React + Node.js + Express + MySQL/PostgreSQL + Stripe",
+          resources: ["Tech stack comparison", "MERN vs PERN guide"],
+          links: ["https://www.geeksforgeeks.org/mern-stack/", "https://blog.logrocket.com/mern-vs-mean-vs-mevn/"],
+          timeEstimate: "1 day"
+        }
+      ]
+    },
+    {
+      title: "Development Environment Setup",
+      icon: <Settings className="w-5 h-5" />,
+      color: "bg-gray-600",
+      description: "Set up all tools and development environment",
+      timeline: "3-4 days",
+      items: [
+        {
+          id: "dev-tools",
+          task: "Install development tools",
+          details: "Install: Node.js, npm/yarn, VS Code, Git, Postman, MySQL Workbench",
+          resources: ["Node.js download", "VS Code setup", "Git installation"],
+          links: ["https://nodejs.org/en/download/", "https://code.visualstudio.com/", "https://git-scm.com/downloads"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "project-structure",
+          task: "Set up project folder structure",
+          details: "Create: /client (React), /server (Node.js), /database (SQL files), package.json files",
+          resources: ["Project structure best practices", "Full-stack folder organization"],
+          links: ["https://blog.logrocket.com/organizing-express-js-project-structure-better-productivity/", "https://www.freecodecamp.org/news/how-to-organize-your-react-application/"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "database-setup",
+          task: "Set up local database",
+          details: "Install MySQL/PostgreSQL, create database, set up connection",
+          resources: ["MySQL installation guide", "Database connection tutorial"],
+          links: ["https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/", "https://www.digitalocean.com/community/tutorials/how-to-connect-node-js-to-a-mysql-database"],
+          timeEstimate: "1-2 days"
+        }
+      ]
+    },
+    {
+      title: "Backend Development",
+      icon: <Database className="w-5 h-5" />,
+      color: "bg-green-600",
+      description: "Build server, APIs, and database",
+      timeline: "3-4 weeks",
+      items: [
+        {
+          id: "basic-server",
+          task: "Create Express.js server with basic routes",
+          details: "Set up server.js, middleware, CORS, basic routing structure",
+          resources: ["Express.js getting started", "Middleware guide"],
+          links: ["https://expressjs.com/en/starter/hello-world.html", "https://expressjs.com/en/guide/using-middleware.html"],
+          timeEstimate: "2 days"
+        },
+        {
+          id: "database-models",
+          task: "Create database models and tables",
+          details: "Models: Student, Event, Registration, Payment with proper relationships",
+          resources: ["Sequelize models", "Prisma schema design"],
+          links: ["https://sequelize.org/docs/v6/core-concepts/model-basics/", "https://www.prisma.io/docs/concepts/components/prisma-schema"],
+          timeEstimate: "3-4 days"
+        },
+        {
+          id: "auth-system",
+          task: "Implement authentication system",
+          details: "User registration, login, JWT tokens, password hashing with bcrypt",
+          resources: ["JWT authentication tutorial", "bcrypt password hashing"],
+          links: ["https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs", "https://www.npmjs.com/package/bcrypt"],
+          timeEstimate: "4-5 days"
+        },
+        {
+          id: "student-apis",
+          task: "Build student management APIs",
+          details: "CRUD operations: GET/POST/PUT/DELETE for student profiles",
+          resources: ["RESTful API design", "Express route handling"],
+          links: ["https://restfulapi.net/rest-crud-api-example/", "https://expressjs.com/en/guide/routing.html"],
+          timeEstimate: "3 days"
+        },
+        {
+          id: "event-apis",
+          task: "Build event management APIs",
+          details: "Create events, view events, event categories, capacity management",
+          resources: ["API documentation best practices", "Swagger/OpenAPI"],
+          links: ["https://swagger.io/docs/specification/basic-structure/", "https://blog.logrocket.com/documenting-express-js-api-swagger/"],
+          timeEstimate: "3-4 days"
+        },
+        {
+          id: "registration-apis",
+          task: "Build registration system APIs",
+          details: "Event registration, check availability, registration status management",
+          resources: ["Complex database queries", "Transaction handling"],
+          links: ["https://sequelize.org/docs/v6/core-concepts/transactions/", "https://www.prisma.io/docs/concepts/components/prisma-client/transactions"],
+          timeEstimate: "4 days"
+        }
+      ]
+    },
+    {
+      title: "Payment System Integration",
+      icon: <CreditCard className="w-5 h-5" />,
+      color: "bg-orange-500",
+      description: "Integrate secure payment processing",
+      timeline: "1-2 weeks",
+      items: [
+        {
+          id: "stripe-setup",
+          task: "Set up Stripe account and API keys",
+          details: "Create Stripe account, get test API keys, understand Stripe dashboard",
+          resources: ["Stripe getting started", "Stripe test cards"],
+          links: ["https://stripe.com/docs/development/quickstart", "https://stripe.com/docs/testing"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "payment-backend",
+          task: "Build payment processing endpoints",
+          details: "Create payment intent, handle payment confirmation, store payment records",
+          resources: ["Stripe Node.js integration", "Payment intent guide"],
+          links: ["https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements", "https://stripe.com/docs/api/payment_intents"],
+          timeEstimate: "4-5 days"
+        },
+        {
+          id: "webhooks",
+          task: "Set up payment webhooks",
+          details: "Handle payment success/failure, update registration status automatically",
+          resources: ["Stripe webhooks tutorial", "Webhook security"],
+          links: ["https://stripe.com/docs/webhooks/quickstart", "https://stripe.com/docs/webhooks/signatures"],
+          timeEstimate: "3 days"
+        },
+        {
+          id: "payment-status",
+          task: "Implement payment status tracking",
+          details: "Track: pending, paid, failed, refunded statuses with database updates",
+          resources: ["Payment state management", "Database triggers"],
+          links: ["https://stripe.com/docs/payments/payment-intents/lifecycle", "https://dev.mysql.com/doc/refman/8.0/en/triggers.html"],
+          timeEstimate: "2 days"
+        }
+      ]
+    },
+    {
+      title: "Frontend Development",
+      icon: <Globe className="w-5 h-5" />,
+      color: "bg-blue-500",
+      description: "Build user interfaces and admin panel",
+      timeline: "3-4 weeks",
+      items: [
+        {
+          id: "react-setup",
+          task: "Set up React application",
+          details: "Create React app, set up routing, install UI library (Material-UI or Tailwind)",
+          resources: ["Create React App", "React Router setup"],
+          links: ["https://create-react-app.dev/docs/getting-started/", "https://reactrouter.com/en/main/start/tutorial"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "auth-frontend",
+          task: "Build authentication pages",
+          details: "Login, registration, password reset forms with validation",
+          resources: ["React forms tutorial", "Form validation with Yup"],
+          links: ["https://react-hook-form.com/get-started", "https://github.com/jquense/yup"],
+          timeEstimate: "3-4 days"
+        },
+        {
+          id: "student-dashboard",
+          task: "Create student dashboard",
+          details: "Profile management, view available events, registration history",
+          resources: ["React dashboard tutorial", "Component design patterns"],
+          links: ["https://mui.com/material-ui/getting-started/templates/", "https://react.dev/learn/thinking-in-react"],
+          timeEstimate: "4-5 days"
+        },
+        {
+          id: "event-pages",
+          task: "Build event listing and detail pages",
+          details: "Event cards, filtering, search, event details with registration button",
+          resources: ["React filtering tutorial", "Search implementation"],
+          links: ["https://www.freecodecamp.org/news/search-and-filter-component-in-reactjs/", "https://blog.logrocket.com/complete-guide-building-smart-data-table-react/"],
+          timeEstimate: "4-5 days"
+        },
+        {
+          id: "payment-frontend",
+          task: "Integrate Stripe payment forms",
+          details: "Payment form with Stripe Elements, payment confirmation page",
+          resources: ["Stripe React Elements", "Payment form tutorial"],
+          links: ["https://stripe.com/docs/stripe-js/react", "https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements"],
+          timeEstimate: "3-4 days"
+        },
+        {
+          id: "admin-panel",
+          task: "Build admin dashboard",
+          details: "Manage students, create events, view payments, generate reports",
+          resources: ["Admin panel design", "Data tables in React"],
+          links: ["https://mui.com/x/react-data-grid/getting-started/", "https://react-admin.marmelab.com/Tutorial.html"],
+          timeEstimate: "5-6 days"
+        }
+      ]
+    },
+    {
+      title: "Testing & Quality Assurance",
+      icon: <Zap className="w-5 h-5" />,
+      color: "bg-yellow-500",
+      description: "Test functionality and fix bugs",
+      timeline: "1-2 weeks",
+      items: [
+        {
+          id: "unit-tests",
+          task: "Write unit tests for backend APIs",
+          details: "Test all endpoints: authentication, CRUD operations, payment processing",
+          resources: ["Jest testing framework", "Supertest for API testing"],
+          links: ["https://jestjs.io/docs/getting-started", "https://www.npmjs.com/package/supertest"],
+          timeEstimate: "3-4 days"
+        },
+        {
+          id: "integration-tests",
+          task: "Test frontend-backend integration",
+          details: "Test user flows: registration → event selection → payment → confirmation",
+          resources: ["React testing library", "End-to-end testing"],
+          links: ["https://testing-library.com/docs/react-testing-library/intro/", "https://playwright.dev/docs/intro"],
+          timeEstimate: "3-4 days"
+        },
+        {
+          id: "payment-testing",
+          task: "Test payment flows thoroughly",
+          details: "Use Stripe test cards, test success/failure scenarios, webhook testing",
+          resources: ["Stripe test scenarios", "Payment testing guide"],
+          links: ["https://stripe.com/docs/testing", "https://stripe.com/docs/webhooks/test"],
+          timeEstimate: "2-3 days"
+        },
+        {
+          id: "security-review",
+          task: "Security audit and fixes",
+          details: "Input validation, SQL injection prevention, secure payment handling",
+          resources: ["OWASP security guide", "Node.js security checklist"],
+          links: ["https://owasp.org/www-project-top-ten/", "https://blog.risingstack.com/node-js-security-checklist/"],
+          timeEstimate: "2 days"
+        }
+      ]
+    },
+    {
+      title: "Deployment & Launch",
+      icon: <Globe className="w-5 h-5" />,
+      color: "bg-red-500",
+      description: "Deploy to production and go live",
+      timeline: "1 week",
+      items: [
+        {
+          id: "production-database",
+          task: "Set up production database",
+          details: "Deploy to cloud: MongoDB Atlas, PostgreSQL on Railway, or MySQL on PlanetScale",
+          resources: ["Cloud database setup", "Database migration"],
+          links: ["https://www.mongodb.com/cloud/atlas", "https://railway.app/", "https://planetscale.com/"],
+          timeEstimate: "1-2 days"
+        },
+        {
+          id: "backend-deploy",
+          task: "Deploy backend to cloud",
+          details: "Deploy Express server to Heroku, Railway, or Render with environment variables",
+          resources: ["Heroku Node.js deployment", "Environment variables guide"],
+          links: ["https://devcenter.heroku.com/articles/deploying-nodejs", "https://railway.app/docs/develop/variables"],
+          timeEstimate: "1-2 days"
+        },
+        {
+          id: "frontend-deploy",
+          task: "Deploy frontend application",
+          details: "Deploy React app to Vercel, Netlify, or GitHub Pages",
+          resources: ["Vercel deployment guide", "Netlify React deployment"],
+          links: ["https://vercel.com/docs/deployments/overview", "https://docs.netlify.com/frameworks/react/"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "domain-ssl",
+          task: "Set up custom domain and SSL",
+          details: "Purchase domain, configure DNS, enable HTTPS",
+          resources: ["Domain setup guide", "SSL certificate tutorial"],
+          links: ["https://vercel.com/docs/concepts/projects/custom-domains", "https://letsencrypt.org/getting-started/"],
+          timeEstimate: "1 day"
+        },
+        {
+          id: "production-testing",
+          task: "Final production testing",
+          details: "Test all features on live site, payment processing with real Stripe account",
+          resources: ["Production testing checklist", "Go-live checklist"],
+          links: ["https://stripe.com/docs/keys#obtain-api-keys", "https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing"],
+          timeEstimate: "1-2 days"
+        }
+      ]
+    }
+  ];
+
+  // Key features breakdown
+  const projectFeatures = {
+    student: [
+      "User registration & login",
+      "Profile management",
+      "Browse available events",
+      "Event registration",
+      "Payment processing",
+      "Registration history",
+      "Payment receipts"
+    ],
+    admin: [
+      "Admin login & dashboard",
+      "Create & manage events",
+      "View registered students",
+      "Track payments & status",
+      "Generate reports",
+      "Send notifications",
+      "Refund management"
+    ]
+  };
+
+  const getPhaseProgress = (phase) => {
+    const completed = phase.items.filter(item => completedItems.has(item.id)).length;
+    return (completed / phase.items.length) * 100;
+  };
+
+  const totalItems = roadmapPhases.reduce((acc, phase) => acc + phase.items.length, 0);
+  const totalCompleted = completedItems.size;
+  const overallProgress = (totalCompleted / totalItems) * 100;
+
+  return (
+    <div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow-lg p-6 mb-6">
+        <h1 className="text-3xl font-bold mb-2">Student Event Payment Website</h1>
+        <p className="text-lg opacity-90 mb-4">Complete Development Roadmap</p>
+        
+        <div className="grid md:grid-cols-3 gap-4 mt-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-3">
+            <div className="font-semibold">Estimated Timeline</div>
+            <div className="text-sm">10-12 weeks total</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-3">
+            <div className="font-semibold">Tech Stack</div>
+            <div className="text-sm">React + Node.js + MySQL + Stripe</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-3">
+            <div className="font-semibold">Your Level</div>
+            <div className="text-sm">Knows HTML, JS, CSS basics</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Overall Progress */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-xl font-bold text-gray-800">Overall Progress</h2>
+          <span className="text-sm text-gray-600">{totalCompleted}/{totalItems} tasks completed</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-4">
+          <div 
+            className="bg-gradient-to-r from-green-500 to-blue-500 h-4 rounded-full transition-all duration-500"
+            style={{ width: `${overallProgress}%` }}
+          ></div>
+        </div>
+        <div className="text-sm text-gray-600 mt-2">{Math.round(overallProgress)}% complete</div>
+      </div>
+
+      {/* Project Features Overview */}
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center">
+            <Users className="w-5 h-5 mr-2 text-blue-500" />
+            Student Features
+          </h3>
+          <ul className="space-y-2 text-sm">
+            {projectFeatures.student.map((feature, idx) => (
+              <li key={idx} className="flex items-center text-gray-700">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center">
+            <Settings className="w-5 h-5 mr-2 text-green-500" />
+            Admin Features
+          </h3>
+          <ul className="space-y-2 text-sm">
+            {projectFeatures.admin.map((feature, idx) => (
+              <li key={idx} className="flex items-center text-gray-700">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Roadmap Phases */}
+      <div className="space-y-6">
+        {roadmapPhases.map((phase, phaseIndex) => {
+          const progress = getPhaseProgress(phase);
+          const isActive = phaseIndex === activePhase;
+          
+          return (
+            <div key={phaseIndex} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div 
+                className={`p-4 cursor-pointer transition-all ${phase.color} text-white`}
+                onClick={() => setActivePhase(isActive ? -1 : phaseIndex)}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    {phase.icon}
+                    <div>
+                      <h3 className="text-xl font-semibold">{phase.title}</h3>
+                      <p className="text-sm opacity-90">{phase.description}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm opacity-90">Timeline: {phase.timeline}</div>
+                    <div className="text-sm font-medium">{Math.round(progress)}% complete</div>
+                  </div>
+                </div>
+                
+                <div className="mt-3 bg-white bg-opacity-20 rounded-full h-2">
+                  <div 
+                    className="bg-white h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {isActive && (
+                <div className="p-6 space-y-4">
+                  {phase.items.map((item) => {
+                    const isCompleted = completedItems.has(item.id);
+                    
+                    return (
+                      <div key={item.id} className="border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-all">
+                        <div className="flex items-start space-x-4">
+                          <button
+                            onClick={() => toggleComplete(item.id)}
+                            className="mt-1 flex-shrink-0"
+                          >
+                            {isCompleted ? 
+                              <CheckCircle2 className="w-6 h-6 text-green-500" /> : 
+                              <Circle className="w-6 h-6 text-gray-400 hover:text-gray-600" />
+                            }
+                          </button>
+                          
+                          <div className="flex-1">
+                            <h4 className={`font-semibold text-lg mb-2 ${isCompleted ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+                              {item.task}
+                            </h4>
+                            
+                            <p className="text-gray-600 text-sm mb-3">{item.details}</p>
+                            
+                            <div className="flex items-center text-sm text-gray-500 mb-3">
+                              <Calendar className="w-4 h-4 mr-1" />
+                              Estimated time: {item.timeEstimate}
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <p className="text-sm font-medium text-gray-700">Learning Resources:</p>
+                              <div className="grid md:grid-cols-2 gap-2">
+                                {item.resources.map((resource, idx) => (
+                                  <a 
+                                    key={idx}
+                                    href={item.links[idx]} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 hover:text-blue-800 hover:underline text-sm flex items-center"
+                                  >
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                                    {resource}
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Success Tips */}
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-6 mt-6">
+        <h3 className="font-bold text-gray-800 mb-4 text-lg">🚀 Success Tips for Your Project</h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Development Tips:</h4>
+            <ul className="text-gray-600 text-sm space-y-1">
+              <li>• Start with MVP (basic registration + payment)</li>
+              <li>• Use Stripe test mode until everything works</li>
+              <li>• Keep your code organized in separate files/folders</li>
+              <li>• Commit to Git frequently with clear messages</li>
+              <li>• Test each feature before moving to the next</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Free Tools You'll Use:</h4>
+            <ul className="text-gray-600 text-sm space-y-1">
+              <li>• MongoDB Atlas or PostgreSQL (free tier)</li>
+              <li>• Stripe (free for testing, low fees for real payments)</li>
+              <li>• Heroku/Railway (free hosting)</li>
+              <li>• Vercel/Netlify (free frontend hosting)</li>
+              <li>• GitHub (free code repository)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Database Schema Preview */}
+      <div className="bg-white rounded-lg shadow-md p-6 mt-6">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">📊 Your Database Tables</h3>
+        <div className="grid md:grid-cols-2 gap-4 text-sm">
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-semibold text-gray-700 mb-2">Students Table</h4>
+            <p className="text-gray-600">id, name, email, phone, college, year, password_hash, created_at</p>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-semibold text-gray-700 mb-2">Events Table</h4>
+            <p className="text-gray-600">id, title, description, date, venue, capacity, price, created_at</p>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-semibold text-gray-700 mb-2">Registrations Table</h4>
+            <p className="text-gray-600">id, student_id, event_id, registration_date, payment_status</p>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-semibold text-gray-700 mb-2">Payments Table</h4>
+            <p className="text-gray-600">id, registration_id, amount, stripe_payment_id, status, paid_at</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
